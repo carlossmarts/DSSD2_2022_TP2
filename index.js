@@ -1,14 +1,24 @@
 const express = require('express')
+const path = require('path')
+const ejemploRoutes = require ('./src/routes/ejemploRoutes')
+
 const app = express()
-app.use(express.json())
+app.set('port', 5000)
 
-app.get('/', (req,res)=>{
-    console.log("recibida peticion get al endpoint '/' ")
-    res.send("hola mundo!")
-})
+//middlewares
+app.use(express.json()) //parsea las solicitudes al servidor
 
-app.listen(5000, ()=>{
-    console.log("server iniciado y escuchando en puerto 5000")
+const logger = (req, res, next)=>{
+    console.log(`Peticion ${req.method.toUpperCase()} recibida -  ${req.protocol}://${req.get('host')}${req.originalUrl}`)
+    console.log("body: ", req.body)
+    next();
+}
+//Rutas
+app.use(logger)
+app.use(ejemploRoutes)
+
+app.listen(app.get('port'), ()=>{
+    console.log("server iniciado y escuchando en puerto ", app.get('port'))
 })
 
 
