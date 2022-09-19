@@ -19,7 +19,9 @@
   "homepage": "https://github.com/carlossmarts/DSSD2_2022_TP2#readme",
   "dependencies": {
     "express": "^4.18.1",
-    "kafkajs": "^2.2.0"
+    "express-myconnection": "^1.0.4",
+    "kafkajs": "^2.2.0",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"
