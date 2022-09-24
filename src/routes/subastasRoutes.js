@@ -9,4 +9,5 @@ const router = express();
 
 //rutas
 router.post('/subasta',subastasCallback.save)
+router.get('/subasta/getHistorico', subastasCallback.list);
 module.exports = router
