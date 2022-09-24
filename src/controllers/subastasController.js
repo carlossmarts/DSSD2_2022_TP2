@@ -3,7 +3,7 @@ controller.save = (req) => {
   const data = req.body;
   req.getConnection((err, conn) => {
     conn.query(
-      "select idSubasta from productos where idProducto = ?",
+      "SELECT idSubasta from productos where idProducto = ?",
       [data.idProducto],
       (err, rows) => {
         if (err) {

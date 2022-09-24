@@ -2,7 +2,6 @@ const express = require('express'),
 path = require('path'),
 mysql = require('mysql'),
 myConnection = require('express-myconnection');
-const ejemploRoutes = require ('./src/routes/ejemploRoutes')
 const subastasRoutes = require ('./src/routes/subastasRoutes')
 
 const app = express()
@@ -25,7 +24,6 @@ const logger = (req, res, next)=>{
 }
 //Rutas
 app.use(logger)
-app.use(ejemploRoutes)
 app.use(subastasRoutes)
 
 app.listen(app.get('port'), ()=>{
