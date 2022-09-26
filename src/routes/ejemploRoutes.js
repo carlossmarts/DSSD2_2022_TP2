@@ -1,8 +1,7 @@
 //modulos
 const express = require('express');
 const path = require('path');
-const producer = require('../kafka/producerEjemplo')
-const consumer = require('../kafka/consumerEjemplo');
+const ejemploCallbacks = require('../callbacks/ejemploCallbacks')
 
 
 //inicializacion
@@ -13,8 +12,8 @@ router.get('/', (req, res)=>{
     res.send("hello world!")
 })
 
-router.post('/ejemploProductor', producer.guardarMensaje);
+router.post('/ejemploProductor', ejemploCallbacks.produce);
 
-//router.get('/ejemploConsumidor', consumer.traerMensajes);
+router.get('/ejemploConsumidor', ejemploCallbacks.consume);
 
 module.exports = router

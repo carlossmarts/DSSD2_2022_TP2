@@ -17,13 +17,13 @@ callback.save = (req, res) => {
 //no se llama desde una ruta sino desde un proceso automático
 callback.persist = () => {
     console.log("consume el topic <facturas> y las persiste en bd")
-    const facturas = consumer.traerMensajes("facturas", "batchProcess")
-    facturas.array.forEach(factura => {
-        facturasController.save(factura)
-    });
+    // const facturas = consumer.traerMensajes("facturas", "batchProcess")
+    // facturas.array.forEach(factura => {
+    //     facturasController.save(factura)
+    // });
 }
 
-callback.get((req, res)=>{
+callback.getAll = ((req, res)=>{
     const facturas = facturasController.getByComprador(req.body.idComprador)
     res.json(facturas)
 })

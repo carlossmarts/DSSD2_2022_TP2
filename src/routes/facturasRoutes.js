@@ -8,6 +8,6 @@ const router = express();
 
 //rutas
 router.post('/api/facturacion/generarFactura',facturasCallback.save)
-router.get('api/facturas/get', facturasCallback.get)
+router.get('api/facturas/get', facturasCallback.getAll)
 
 module.exports = router

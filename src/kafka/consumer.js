@@ -10,7 +10,6 @@ const traerMensajes = async (topic, groupId)=>{
     try {
 
         const timestamp = Date.now()
-        //el gropiId con el que se inicializa el consumer debe ser unico para traer todos los mensajes del topic cada vez que se llama al método
         const consumer = kafka.consumer({groupId: groupId})
 
         await consumer.connect()

@@ -5,7 +5,8 @@ const cron = require('node-cron');
 
 myConnection = require('express-myconnection');
 const subastasRoutes = require ('./src/routes/subastasRoutes')
-const facturasRoutes = require('./src/routes/facturasRoutes');
+const facturasRoutes = require('./src/routes/facturasRoutes')
+const ejemploRoutes = require('./src/routes/ejemploRoutes')
 const { persist } = require('./src/callbacks/facturasCallback');
 
 const app = express()
@@ -32,6 +33,7 @@ const logger = (req, res, next)=>{
 
 //Rutas
 app.use(logger)
+app.use(ejemploRoutes)
 app.use(subastasRoutes)
 app.use(facturasRoutes)
 
