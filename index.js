@@ -36,7 +36,7 @@ const logger = (req, res, next)=>{
 app.use(logger)
 app.use(ejemploRoutes)
 app.use(subastasRoutes)
-app.use(productosRoutes)
+// app.use(productosRoutes)
 app.use(facturasRoutes)
 
 //cada minuto lee el topic de facturas y las guadra en bd

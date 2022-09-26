@@ -9,12 +9,11 @@ const producer = kafka.producer()
 
 //esta funcion es un callback correspondiente a un endpoint de express
 const guardarMensaje = async (msg, topic)=>{
-    console.log(`se guarda en topic <${topic}> el mensaje: ${msg}`)
     try {
         //1) Abrir conexion al broker de kafka
         await producer.connect()
         const strMsg = JSON.stringify(msg)
-
+        console.log(`se guarda en topic <${topic}> el mensaje: ${strMsg}`)
         //2) guardar mensaje en el broker indicando el topic y mensaje
         await producer.send({
             topic: topic,
@@ -33,7 +32,7 @@ const guardarMensaje = async (msg, topic)=>{
         //4) Enviar respuesta al frontend
         // res.send("mensaje guardado")
     } catch (error) {
-        console.log("error en producer: " + error)
+        console.error("error en producer: " + error)
         return serverError(error)
     }
 }

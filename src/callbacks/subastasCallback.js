@@ -8,10 +8,6 @@ const callback = {};
 callback.save = (req, res) => {
   try {
     const respController = subastasController.save(req);
-    // const kafkaMsg = {
-    //   ...req.body,
-    //   topic: `ofertas_${req.body.idProducto}`,
-    // };
     const topic = `ofertas_${req.body.idProducto}`
     producer.guardarMensaje(req.body, topic);
     res.json(respController);
@@ -21,8 +17,10 @@ callback.save = (req, res) => {
 };
 callback.list = (req, res) => {
   try {
-    const resp = consumer.traerMensajes({ topic: `ofertas_${req.body.idProducto}`});
-    console.log(resp);
+    const timestamp = Date.now().toString()
+    console.log("Yendo")
+    const resp = consumer.traerMensajes(`ofertas_${req.body.idProducto}`, timestamp);
+    console.log("No, llegando")
     res.json(resp);
   } catch (error) {
     console.error("SubastasCallbak List: " + error.message);

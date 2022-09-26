@@ -7,6 +7,7 @@ const subastasCallback = require('../callbacks/subastasCallback');
 const router = express();
 
 //rutas
-router.get('api/subasta/getHistorico', subastasCallback.list);
-router.post('api/subasta',subastasCallback.save)
+router.post('/api/subasta',subastasCallback.save);
+router.get('/api/subasta/getHistorico', subastasCallback.list);
+
 module.exports = router
