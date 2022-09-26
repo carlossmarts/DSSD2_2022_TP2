@@ -2,7 +2,8 @@ const express = require('express'),
 path = require('path'),
 mysql = require('mysql'),
 myConnection = require('express-myconnection');
-const subastasRoutes = require ('./src/routes/subastasRoutes')
+const subastasRoutes = require ('./src/routes/subastasRoutes');
+const productosRoutes = require ('./src/routes/productosRoutes');
 
 const app = express()
 app.set('port', 5000)
@@ -25,6 +26,7 @@ const logger = (req, res, next)=>{
 //Rutas
 app.use(logger)
 app.use(subastasRoutes)
+app.use(productosRoutes)
 
 app.listen(app.get('port'), ()=>{
     console.log("server iniciado y escuchando en puerto ", app.get('port'))
