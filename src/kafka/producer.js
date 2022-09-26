@@ -1,4 +1,5 @@
 const {Kafka} = require('kafkajs')
+const { serverError, serverOK } = require('../callbacks/utils')
 const kafka = new Kafka({
     clientId: 'DSSDTP2',
     brokers: ['127.0.0.1:9092']
@@ -7,21 +8,19 @@ const kafka = new Kafka({
 const producer = kafka.producer()
 
 //esta funcion es un callback correspondiente a un endpoint de express
-const guardarMensaje = async (req, res)=>{
-    console.log(req)
+const guardarMensaje = async (msg, topic)=>{
+    console.log(`se guarda en topic <${topic}> el mensaje: ${msg}`)
     try {
         //1) Abrir conexion al broker de kafka
         await producer.connect()
-
-        console.log("guardando mensaje en topic: ", req.topic)
-        const msg = JSON.stringify(req)
+        const strMsg = JSON.stringify(msg)
 
         //2) guardar mensaje en el broker indicando el topic y mensaje
         await producer.send({
-            topic: req.topic,
+            topic: topic,
             messages:[
                 {
-                    value: msg
+                    value: strMsg
                 }
             ]
         })
@@ -29,14 +28,13 @@ const guardarMensaje = async (req, res)=>{
         //3) cerrar conexion
         await producer.disconnect()
 
+        return serverOK("")
+
         //4) Enviar respuesta al frontend
         // res.send("mensaje guardado")
     } catch (error) {
         console.log("error en producer: " + error)
-        res.json({
-            status: 500,
-            error: error
-        })
+        return serverError(error)
     }
 }
 
