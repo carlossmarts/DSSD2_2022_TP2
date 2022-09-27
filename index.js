@@ -1,7 +1,7 @@
 const express = require('express')
 path = require('path')
 mysql = require('mysql')
-const cron = require('node-cron');
+const consumer = require("./src/kafka/consumer");
 
 myConnection = require('express-myconnection');
 const productosRoutes = require ('./src/routes/productosRoutes');
@@ -39,8 +39,7 @@ app.use(subastasRoutes)
 app.use(productosRoutes)
 app.use(facturasRoutes)
 
-//cada minuto lee el topic de facturas y las guadra en bd
-cron.schedule("*/1 * * * *", persist)
+consumer.persistFacturas();
 
 app.listen(app.get('port'), ()=>{
 	console.log("server iniciado y escuchando en puerto ", app.get('port'))
