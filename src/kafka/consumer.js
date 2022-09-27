@@ -80,5 +80,5 @@ const traerMensajes = async (req, res) => {
 
 module.exports = {
   traerMensajes,
-  resMensajes
+  persistFacturas
 };

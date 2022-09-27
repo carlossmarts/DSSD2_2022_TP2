@@ -17,7 +17,7 @@ router.post('/ejemploProductor', ejemploCallbacks.produce);
 
 //router.get('/ejemploConsumidor', ejemploCallbacks.consume);
 
-router.get('/ejemploConsumidor', consumer.resMensajes)
+router.get('/ejemploConsumidor', consumer.traerMensajes)
 
 
 

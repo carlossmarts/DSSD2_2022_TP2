@@ -15,15 +15,4 @@ callback.save = (req, res) => {
     console.error("SubastasCallbak Save: " + error.message);
   }
 };
-callback.list = (req, res) => {
-  try {
-    const timestamp = Date.now().toString()
-    console.log("Yendo")
-    const resp = consumer.traerMensajes(`ofertas_${req.body.idProducto}`, timestamp);
-    console.log("No, llegando")
-    res.json(resp);
-  } catch (error) {
-    console.error("SubastasCallbak List: " + error.message);
-  }
-};
 module.exports = callback;
