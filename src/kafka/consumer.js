@@ -1,4 +1,5 @@
-const { Kafka } = require('kafkajs')
+const { Kafka } = require('kafkajs');
+const { restart } = require('nodemon');
 const { serverError, serverOK } = require('../callbacks/utils')
 
 const kafka = new Kafka({
@@ -6,16 +7,16 @@ const kafka = new Kafka({
   brokers: ["127.0.0.1:9092"],
 });
 
-const traerMensajes = async (topic, groupId) => {
+const persistFacturas = async () => {
   try {
-    console.log(`se consume el topic <${topic}> con el groupId: ${groupId}`);
+    console.log(`se consume el topic <facturas> con el groupId: facturas`);
     const timestamp = Date.now()
-    const consumer = kafka.consumer({ groupId: groupId })
+    const consumer = kafka.consumer({ groupId: "facturas" })
 
     await consumer.connect()
 
     await consumer.subscribe({
-      topic: topic,
+      topic: "facturas",
       fromBeginning: true
     })
 
@@ -25,7 +26,9 @@ const traerMensajes = async (topic, groupId) => {
       eachMessage: async ({ message }) => {
         const value = message.value.toString();
         console.log(`se recupero el mensaje ${value}`)
-        retorno.push(JSON.parse(value));
+        /* TODO
+            cada vez que llegue una factura se debe guardar en la base de datos
+        */
       },
     });
 
@@ -40,7 +43,7 @@ const traerMensajes = async (topic, groupId) => {
   }
 }
 
-const resMensajes = async (req, res) => {
+const traerMensajes = async (req, res) => {
     const groupId = req.body.groupId
     const topic = req.body.topic 
     try {
@@ -53,15 +56,22 @@ const resMensajes = async (req, res) => {
         topic: topic,
         fromBeginning: true
       })
-  
-      await consumer.run({
-        eachMessage: async ({ message }) => {
-                const value = message.value.toString();
-                consumer.disconnect()
-                console.log(value)
-                res.send(value)
-        },
-      });
+
+    consumer.run({
+        eachBatchAutoResolve: false,
+        eachBatch: async ({ batch, resolveOffset, heartbeat, isRunning, isStale }) => {
+            console.log("mensajes pendientes: " + batch.messages.length )
+            let rs = []
+            for (let message of batch.messages) {
+                if (!isRunning() || isStale()) break
+                resolveOffset(message.offset)
+                rs.push(JSON.parse(message.value.toString()))
+            }
+            res.json(rs)
+            consumer.disconnect()
+        }
+    })
+    
     } catch (error) {
       console.error("error en consumer: " + error)
       return serverError(error)
