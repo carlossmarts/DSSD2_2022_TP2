@@ -6,6 +6,7 @@ const callback = {};
 callback.save = (req, res) => {
   try {
     const response = producer.guardarMensaje(req.body, "facturas");
+    const saveFactura = facturasController.save(req);
     res.json(response);
   } catch (error) {
     console.error("FacturasCallbak Save: " + error.message);

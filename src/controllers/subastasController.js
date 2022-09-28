@@ -23,7 +23,7 @@ controller.save = (req) => {
             (err, subasta) => {
               if (err) {
                 console.error("Error insertando subasta" + err.message);
-                return connection.rollback(() => {
+                return conn.rollback(() => {
                   throw err;
                 });
               }
@@ -33,7 +33,7 @@ controller.save = (req) => {
                 (err, rows) => {
                   if (err) {
                     console.error("Error actualizando producto" + err.message);
-                    return connection.rollback(() => {
+                    return conn.rollback(() => {
                       throw err;
                     });
                   }
